@@ -68,5 +68,5 @@ router.delete('/:id', UsersRouter.delete);
 
 
 
-router.post('/images', UsersRouter.postForm);
+router.post('/images/', UsersRouter.postForm);
 module.exports = router;
