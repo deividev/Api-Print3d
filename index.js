@@ -1,82 +1,100 @@
-const Koa = require('koa');
-const mongoose = require('mongoose');
-const mongoUri = 'mongodb://localhost:27017/print3d';
-const logger = require('logger');
-const body = require('koa-body');
-const usersRouter = require('routes/users.router');
-const modelsRouter = require('routes/models.router');
-const categoryRouter = require('routes/categories.router');
 
-const koaLogger = require('koa-logger');
-const mount = require('koa-mount');
-const validate = require('koa-validate');
+//Express
+const express = require('express');
+const ejs = require('ejs');
+const cors = require('cors');
+const bodyParser = require("body-parser");
+const multer = require('multer');
+const path = require('path');
 
-const convert = require('koa-convert');
-const session = require('koa-generic-session');
-const File = require('koa-generic-session-file');
-const cors = require('@koa/cors');
+const app = express();
 
 
+require('./database.js')
+//Inizialition
 
-const onDBReady = (err) => {
-  if (err) {
-    logger.error('Error connecting', err);
-    throw new Error('Error connecting', err);
+
+app.use(cors());
+
+if (process.env.NODE_ENV === 'development') {
+  // CORS settings
+}
+app.use(express.json());
+// app.use(bodyParser.json())
+// app.use(bodyParser.urlencoded({ extended: true }))
+
+//Settings
+app.set('port', 3002);
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs')
+
+
+//Middelwares
+const storage = multer.diskStorage({
+  destination: (req, file, callBack) => {
+      callBack(null, 'uploads/images')
+  },
+  filename: (req, file, callBack) => {
+      callBack(null, `${file.originalname}`)
   }
-  const app = new Koa();
-  if (process.env.NODE_ENV === 'dev') {
-    app.use(koaLogger());
-  }
+})
 
-  app.use(body());
+const upload = multer({ storage: storage })
 
 
-  validate(app);
+//** Routes**
 
-  app.keys = ['claveSuperSecreta'];
+app.use('/api', require('./routes/categories.router.js'));
 
-  var options = {
-    origin: '*'
-  };
-  app.use(cors(options));
+app.use('/api', require('./routes/users.router.js'));
 
-  app.use(convert(session({
-    store: new File({
-      sessionDirectory: __dirname + '/sessions'
-    })
-  })));
+app.get('/', (req, res) => {
+  res.render('');
+  console.log('Server online');
+}); 
 
-  app.use(async (ctx, next) => {
-    logger.info(`Last request was ${ctx.session.lastRequest}`);
-    ctx.session.lastRequest = new Date();
-    await next();
-  });
+app.post('/upload', upload.single('image'), (req, res) => {
+  console.log(req.file);
+  (req.file);
+  res.send('file');
+  console.log('uploaded');
+});
 
-
-  app.use(async (ctx, next) => {
-    logger.info(`The request url is ${ctx.url}`);
-    await next();
-  });
+app.post('/upload/models', upload.single('model'), (req, res) => {
+  console.log(req.file);
+  (req.file);
+  res.send('file');
+  console.log('uploaded');
+});
 
 
-  app.use(mount('/api/v1', usersRouter.routes()));
+  // app.use('/', usersRouter.routes());
 
-  app.use(mount('/api/v1', modelsRouter.routes()));
+  // app.use('/', modelsRouter.routes());
 
-  app.use(mount('/api/v1', categoryRouter.routes()));
-
-  
+  // app.use('/', categoryRouter.routes());
 
 
-  app.listen(3001, function (err) {
-    if (err) {
-      logger.error('Error listening in port 3001', err);
-      process.exit(1);
-    }
-    logger.info('Koa server listening in port 3001');
-  });
-};
 
-mongoose.connect(mongoUri, onDBReady);
+
+
+//Start the serve
+app.listen(app.get('port'), () => {
+ console.log(`Server on port ${app.get('port')}`);
+});
+
+//   app.use(async (ctx, next) => {
+//     logger.info(`Last request was ${ctx.session.lastRequest}`);
+//     ctx.session.lastRequest = new Date();
+//     await next();
+//   });
+
+
+//   app.use(async (ctx, next) => {
+//     logger.info(`The request url is ${ctx.url}`);
+//     await next();
+//   });
+
+
 
 

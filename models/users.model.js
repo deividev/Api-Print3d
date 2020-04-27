@@ -3,12 +3,12 @@ const mongoose = require('mongoose');
 const User = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
+    required: false,
     trim: true
   },
   username: {
     type: String,
-    required: true,
+    required: false,
     trim: true
   },
   email: {
@@ -23,7 +23,7 @@ const User = new mongoose.Schema({
   },
   img: {
     type: String,
-    required: true,
+    required: false,
     trim: true
   },
   location: {
@@ -50,9 +50,6 @@ const User = new mongoose.Schema({
     type: { type : mongoose.Schema.Types.ObjectId, ref: 'Comment' },
     required: false,
   }},{
-    timestamps: {
-      createdAt: "created_at",
-      updatedAt: "updated_at"
-    }
+    timestamps: true
 });
 module.exports = mongoose.model('User', User);

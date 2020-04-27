@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const Model = new mongoose.Schema({
   title: {
     type: String,
-    required: true,
+    required: false,
     trim: true
   },
   author_id: {
@@ -17,12 +17,12 @@ const Model = new mongoose.Schema({
   },
   likes: {
     type: Number,
-    required: true,
+    required: false,
     trim: true
   },
   downloads: {
     type: Number,
-    required: true,
+    required: false,
     trim: true
   },
   categorie_id: {
@@ -35,12 +35,12 @@ const Model = new mongoose.Schema({
   },
   settings: {
     type: String,
-    required: true,
+    required: false,
     trim: true
   },
   custom: {
     type: String,
-    required: true,
+    required: false,
     trim: true
   },
   license_id: {
@@ -48,7 +48,7 @@ const Model = new mongoose.Schema({
   },
   tags: {
     type: String,
-    required: true,
+    required: false,
     trim: true
   }},{
     timestamps: {
