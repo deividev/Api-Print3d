@@ -11,9 +11,11 @@ router.get('/models', async(req, res) => {
  
 router.post('/models', async(req, res) => {
   const values = req.body;
-  const newModel = new model(values);
+  const newModel = new model(values, req.file.path);
   await newModel.save();
   res.send('hola');
+  console.log(newModel);
+  
 })
 
 

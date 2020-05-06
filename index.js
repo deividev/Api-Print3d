@@ -32,7 +32,7 @@ app.set('view engine', 'ejs')
 //Middelwares
 const storage = multer.diskStorage({
   destination: (req, file, callBack) => {
-      callBack(null, 'uploads/images')
+      callBack(null, 'uploads/')
   },
   filename: (req, file, callBack) => {
       callBack(null, `${file.originalname}`)
@@ -50,24 +50,26 @@ app.use('/api', require('./routes/users.router.js'));
 
 app.use('/api', require('./routes/models.router.js'));
 
+
 app.get('/', (req, res) => {
   res.render('');
   console.log('Server online');
 }); 
 
-app.post('/upload', upload.single('image'), (req, res) => {
+app.post('/api/upload', upload.single('image'), (req, res) => {
   console.log(req.file);
   (req.file);
   res.send('file');
   console.log('uploaded');
 });
 
-app.post('/upload/models', upload.single('model'), (req, res) => {
-  console.log(req.file);
-  (req.file);
-  res.send('file');
-  console.log('uploaded');
-});
+app.use('/api/upload', express.static(path.resolve('uploads')))
+// app.post('/api/upload/models', upload.single('model'), (req, res) => {
+//   console.log(req.file);
+//   (req.file);
+//   res.send('file');
+//   console.log('uploaded model');
+// });
 
 
 
