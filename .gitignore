@@ -3,3 +3,4 @@ node_modules
 sessions   
 uploads
 package-lock.json
+views

@@ -6,7 +6,7 @@ const router = Router();
 
 router.get('/categories', async(req, res) => {
   console.log(req.body);
-  categories  = await categoriesModel.find();
+  const categories  = await categoriesModel.find();
   return res.json(categories);
 })
  
@@ -19,9 +19,16 @@ router.post('/categories', async(req, res) => {
 
 
 router.delete('/categories/:id', async(req, res) => {
-})
+  console.log(req.params.id);
+  await categoriesModel.findByIdAndDelete(req.params.id);
+  console.log('Categorie delete');
 
-router.put('/categories/:id', async(req, res) => {
-})
+});
+
+router.put('/categories/update/:id', async(req, res) => {
+  await categoriesModel.findByIdAndUpdate(req.params.id);
+  console.log('Categorie update');
+
+});
 
 module.exports = router;  

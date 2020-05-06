@@ -24,7 +24,7 @@ app.use(express.json());
 // app.use(bodyParser.urlencoded({ extended: true }))
 
 //Settings
-app.set('port', 3002);
+app.set('port', 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs')
 
@@ -48,6 +48,8 @@ app.use('/api', require('./routes/categories.router.js'));
 
 app.use('/api', require('./routes/users.router.js'));
 
+app.use('/api', require('./routes/models.router.js'));
+
 app.get('/', (req, res) => {
   res.render('');
   console.log('Server online');
@@ -66,15 +68,6 @@ app.post('/upload/models', upload.single('model'), (req, res) => {
   res.send('file');
   console.log('uploaded');
 });
-
-
-  // app.use('/', usersRouter.routes());
-
-  // app.use('/', modelsRouter.routes());
-
-  // app.use('/', categoryRouter.routes());
-
-
 
 
 

@@ -1,7 +1,37 @@
 
-const Router = require('koa-router');
-const modelsModel = require('models/model');
+const { Router } = require('express');
+const model = require('../models/model');
 const mongoose = require('mongoose');
+const router = Router();
+
+router.get('/models', async(req, res) => {
+  const models  = await model.find();
+  return res.json(models);
+})
+ 
+router.post('/models', async(req, res) => {
+  const values = req.body;
+  const newModel = new model(values);
+  await newModel.save();
+  res.send('hola');
+})
+
+
+router.delete('/models/:id', async(req, res) => {
+  console.log(req.params.id);
+  await model.findByIdAndDelete(req.params.id);
+  console.log('Model delete');
+
+});
+
+router.put('/models/update/:id', async(req, res) => {
+  await model.findByIdAndUpdate(req.params.id);
+  console.log('Model update');
+
+});
+
+module.exports = router;  
+
 
 
 // class modelsRouter {
@@ -56,16 +86,15 @@ const mongoose = require('mongoose');
 // }
 
 
-const router = new Router({
-  prefix: '/models'
-});
+// const router = new Router({
+//   prefix: '/models'
+// });
 
-router.get('/', modelsRouter.get);
-router.get('/:id', modelsRouter.getById);
-router.post('/', modelsRouter.create);
-router.put('/:id', modelsRouter.update);
-router.delete('/:id', modelsRouter.delete);
+// router.get('/', modelsRouter.get);
+// router.get('/:id', modelsRouter.getById);
+// router.post('/', modelsRouter.create);
+// router.put('/:id', modelsRouter.update);
+// router.delete('/:id', modelsRouter.delete);
 
 
-router.post('/create', modelsRouter.postForm);
-module.exports = router;
+// router.post('/create', modelsRouter.postForm);
