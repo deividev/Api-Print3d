@@ -15,6 +15,11 @@ const Model = new mongoose.Schema({
     required: true,
     trim: true
   },
+  model: {
+    type: String,
+    required: false,
+    trim: true
+  },
   likes: {
     type: Number,
     required: false,

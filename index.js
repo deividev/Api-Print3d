@@ -57,7 +57,7 @@ app.get('/', (req, res) => {
 }); 
 
 app.post('/api/upload', upload.single('image'), (req, res) => {
-  console.log(req.file);
+  console.log(req.file.path);
   (req.file);
   res.send('file');
   console.log('uploaded');
