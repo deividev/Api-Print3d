@@ -24,7 +24,7 @@ app.use(express.json());
 // app.use(bodyParser.urlencoded({ extended: true }))
 
 //Settings
-app.set('port', 3000);
+app.set('port', 3001);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs')
 
@@ -64,12 +64,12 @@ app.post('/api/upload', upload.single('image'), (req, res) => {
 });
 
 app.use('/api/upload', express.static(path.resolve('uploads')))
-// app.post('/api/upload/models', upload.single('model'), (req, res) => {
-//   console.log(req.file);
-//   (req.file);
-//   res.send('file');
-//   console.log('uploaded model');
-// });
+app.post('/api/upload/models', upload.single('model'), (req, res) => {
+  console.log(req.file);
+  (req.file);
+  res.send('file');
+  console.log('uploaded model');
+});
 
 
 

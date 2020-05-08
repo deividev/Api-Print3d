@@ -8,36 +8,36 @@ router.get('/models', async (req, res) => {
   return res.json(models);
 })
 
-// router.post('/models', async (req, res) => {
-//   const values = req.body;
-//   const newModel = new model(values);
-//   await newModel.save();
-//   res.send('hola');
-//   console.log(newModel);
-// })
+router.post('/models', async (req, res) => {
+  const values = req.body;
+  const newModel = new model(values);
+  await newModel.save();
+  res.send('hola');
+  console.log(newModel);
+})
 
-router.post('/models',async function createModels(req, res) {
-    const values = req.body;
-    const Model = { values};
-    const newModel = new model(Model);
-    await newModel.save();
-    return res.json({
-      message: 'Model Saved Successfully',
-  });
+// router.post('/models',async function createModels(req, res) {
+//     const values = req.body;
+//     const newModel = new model(values);
+//     await newModel.save();
+//     console.log(newModel);
+//     return res.json({
+//       message: 'Model Saved Successfully',
+//       newModel
+//   });
+// });
+
+router.delete('/models/:id', async (req, res) => {
+  console.log(req.params.id);
+  await model.findByIdAndDelete(req.params.id);
+  console.log('Model delete');
+})
+router.put('/models/update/:id', async (req, res) => {
+  await model.findByIdAndUpdate(req.params.id);
+  console.log('Model update');
 });
 
-    router.delete('/models/:id', async (req, res) => {
-      console.log(req.params.id);
-      await model.findByIdAndDelete(req.params.id);
-      console.log('Model delete');
-    });
-
-    router.put('/models/update/:id', async (req, res) => {
-      await model.findByIdAndUpdate(req.params.id);
-      console.log('Model update');
-    });
-
-    module.exports = router;
+module.exports = router;
 
 
 
