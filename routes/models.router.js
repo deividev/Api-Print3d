@@ -1,39 +1,40 @@
 const { Router} = require('express');
-const model = require('../models/model');
+const Model = require('../models/model');
 const mongoose = require('mongoose');
 const router = Router();
 
 router.get('/models', async (req, res) => {
-  const models = await model.find();
+  const models = await Model.find();
   return res.json(models);
 })
 
-// router.post('/models', async (req, res) => {
-//   const values = req.body;
-//   const newModel = new model(values);
-//   await newModel.save();
-//   res.send('hola');
-//   console.log(newModel);
-// })
+router.post('/models', async (req, res) => {
+  const values = req.body;
+  const newModel = new Model(values);
+  await newModel.save();
+  res.send('hola');
+  console.log(newModel);
+})
 
-router.post('/models',async function createModels(req, res) {
-    const values = req.body;
-    const Model = { values};
-    const newModel = new model(Model);
-    await newModel.save();
-    return res.json({
-      message: 'Model Saved Successfully',
-  });
-});
+// router.post('/models',async function createModels(req, res) {
+//     const values = req.body;
+//     const newModel = { values};
+//     const model3d = new Model(Model);
+//     await model3d.save();
+//     return res.json({
+//       message: 'Model Saved Successfully',
+//       model3d
+//   });
+// });
 
     router.delete('/models/:id', async (req, res) => {
       console.log(req.params.id);
-      await model.findByIdAndDelete(req.params.id);
+      await Model.findByIdAndDelete(req.params.id);
       console.log('Model delete');
     });
 
     router.put('/models/update/:id', async (req, res) => {
-      await model.findByIdAndUpdate(req.params.id);
+      await Model.findByIdAndUpdate(req.params.id);
       console.log('Model update');
     });
 
