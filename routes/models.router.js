@@ -38,7 +38,7 @@ router.post('/models', async (req, res) => {
       console.log('Model update');
     });
 
-    module.exports = router;
+module.exports = router;
 
 
 
