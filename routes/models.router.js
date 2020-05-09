@@ -3,12 +3,29 @@ const Model = require('../models/model');
 const mongoose = require('mongoose');
 const router = Router();
 
+
+const multer = require('multer');
+const path = require('path');
+
+
+const storage = multer.diskStorage({
+  destination: (req, file, callBack) => {
+      callBack(null, 'uploads/')
+  },
+  filename: (req, file, callBack) => {
+      callBack(null, `${file.originalname}`)
+  }
+})
+
+const upload = multer({ storage: storage })
+
+
 router.get('/models', async (req, res) => {
   const models = await Model.find();
   return res.json(models);
 })
 
-router.post('/models', async (req, res) => {
+router.post('/models',upload.single('img'), async (req, res) => {
   const values = req.body;
   const newModel = new Model(values);
   await newModel.save();

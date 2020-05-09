@@ -4,7 +4,6 @@ const express = require('express');
 const ejs = require('ejs');
 const cors = require('cors');
 const bodyParser = require("body-parser");
-const multer = require('multer');
 const path = require('path');
 
 const app = express();
@@ -30,16 +29,7 @@ app.set('view engine', 'ejs')
 
 
 //Middelwares
-const storage = multer.diskStorage({
-  destination: (req, file, callBack) => {
-      callBack(null, 'uploads/')
-  },
-  filename: (req, file, callBack) => {
-      callBack(null, `${file.originalname}`)
-  }
-})
 
-const upload = multer({ storage: storage })
 
 
 //** Routes**
@@ -56,20 +46,20 @@ app.get('/', (req, res) => {
   console.log('Server online');
 }); 
 
-app.post('/api/upload', upload.single('image'), (req, res) => {
-  console.log(req.file.path);
-  (req.file);
-  res.send('file');
-  console.log('uploaded');
-});
+// app.post('/api/upload', upload.single('image'), (req, res) => {
+//   console.log(req.file.path);
+//   (req.file);
+//   res.send('file');
+//   console.log('uploaded');
+// });
 
-app.use('/api/upload', express.static(path.resolve('uploads')))
-app.post('/api/upload/models', upload.single('model'), (req, res) => {
-  console.log(req.file);
-  (req.file);
-  res.send('file');
-  console.log('uploaded model');
-});
+// app.use('/api/upload', express.static(path.resolve('uploads')))
+// app.post('/api/upload/models', upload.single('model'), (req, res) => {
+//   console.log(req.file);
+//   (req.file);
+//   res.send('file');
+//   console.log('uploaded model');
+// });
 
 
 
