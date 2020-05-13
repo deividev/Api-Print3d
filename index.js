@@ -4,6 +4,7 @@ const express = require('express');
 const ejs = require('ejs');
 const cors = require('cors');
 const bodyParser = require("body-parser");
+const multer = require('multer');
 const path = require('path');
 
 const app = express();
@@ -23,13 +24,13 @@ app.use(express.json());
 // app.use(bodyParser.urlencoded({ extended: true }))
 
 //Settings
-app.set('port', 3001);
+app.set('port', 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs')
 
 
 //Middelwares
-
+var upload = multer({ dest: 'uploads/' })
 
 
 //** Routes**
@@ -47,13 +48,21 @@ app.get('/', (req, res) => {
 }); 
 
 // app.post('/api/upload', upload.single('image'), (req, res) => {
-//   console.log(req.file.path);
-//   (req.file);
-//   res.send('file');
-//   console.log('uploaded');
+//   res.json({
+//     message: 'File uploaded successfully',
+//     path: req.file.path
+//   });
 // });
 
-// app.use('/api/upload', express.static(path.resolve('uploads')))
+app.post('/api/upload', upload.single('image'), async (req, res, next) => {
+  console.log(req.file);
+  const imagePath = req.file.path;
+  res.json(imagePath);
+});
+
+
+app.use('/api/upload', express.static(path.resolve('uploads')))
+
 // app.post('/api/upload/models', upload.single('model'), (req, res) => {
 //   console.log(req.file);
 //   (req.file);
@@ -68,18 +77,5 @@ app.listen(app.get('port'), () => {
  console.log(`Server on port ${app.get('port')}`);
 });
 
-//   app.use(async (ctx, next) => {
-//     logger.info(`Last request was ${ctx.session.lastRequest}`);
-//     ctx.session.lastRequest = new Date();
-//     await next();
-//   });
 
-
-//   app.use(async (ctx, next) => {
-//     logger.info(`The request url is ${ctx.url}`);
-//     await next();
-//   });
-
-
-
-
+module.exports = app;
