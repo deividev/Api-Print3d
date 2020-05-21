@@ -14,10 +14,6 @@ router.post('/models',async function createModels(req, res) {
     const newModel = { values};
     const model3d = new Model(newModel);
     await model3d.save();
-    return res.json({
-      message: 'Model Saved Successfully',
-      model3d
-  });
 });
 
 router.delete('/models/:id', async (req, res) => {
