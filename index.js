@@ -41,7 +41,7 @@ const OnDBReady = (err) => {
 
   var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, "uploads/");
+      cb(null, "public/uploads/images");
     },
     filename: function (req, file, cb) {
       // cb(null, file.filename + path.extname(file.originalname)); //Appending extension
@@ -49,11 +49,11 @@ const OnDBReady = (err) => {
       const name = file.originalname.split('.')[0];
       try {
         let count = 0;
-        if (!fs.existsSync("uploads/" + file.originalname)) {
+        if (!fs.existsSync("public/uploads/images" + file.originalname)) {
           cb(null, file.originalname);
         } else {
           let count = 0;
-          while (fs.existsSync(`uploads/${name}_${count}.${extension}`)) {
+          while (fs.existsSync(`public/uploads/images ${name}_${count}.${extension}`)) {
             count++;
           }
           cb(null, `${name}_${count}.${extension}`);
@@ -83,8 +83,8 @@ const OnDBReady = (err) => {
 
   app.post("/api/upload", upload.single("image"), async (req, res, next) => {
     console.log(req.file.filename);
-    const imgName = req.file.filename;
-    console.log(req);
+    const imgName = `http://localhost:3000/uploads/images/${req.file.filename}`;
+    console.log(req); 
     
 
     const model3d = await new ModelModel({
@@ -105,7 +105,7 @@ const OnDBReady = (err) => {
     return res.json({model3d});
   });
 
-  app.use("/api/upload", express.static(path.resolve("uploads")));
+  app.use(express.static(path.join(__dirname, 'public')));
 
   // app.post('/api/upload/models', upload.single('model'), (req, res) => {
   //   console.log(req.file);

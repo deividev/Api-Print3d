@@ -1,3 +1,6 @@
+const { Router} = require('express');
+const Model = require('../models/model');
+
 
 //Multer
 const multer = require('multer');
@@ -16,13 +19,8 @@ const fileRouter = new Router({
   prefix: '/files'
 });
 
-fileRouter.post(
-  '/',
-  upload.single('img'),
-  ctx => {
-    console.log('ctx.request.file', ctx.request.file);
-    console.log('ctx.file', ctx.file);
-    console.log('ctx.request.body', ctx.request.body);
-    ctx.body = 'done';
-  }
-);
+router.get('/uploads', async (req, res) => {
+  const models = await Model.findById();
+  res.json(models);
+})
+module.exports = router;

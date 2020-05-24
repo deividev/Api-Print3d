@@ -10,8 +10,8 @@ const jwt = require('jsonwebtoken');
 
 
 router.get('/user', async(req, res) => {
-  categories  = await User.find();
-  return res.json(categories);
+  const user  = await User.find();
+  return res.json(user);
 })
  
 router.post('/signup', async(req, res) => {
