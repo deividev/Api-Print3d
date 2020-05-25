@@ -40,17 +40,17 @@ const OnDBReady = (err) => {
   // var upload = multer({ dest: 'uploads/' })
 
   var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
+    destination: function (req, files, cb) {
       cb(null, "public/uploads/images");
     },
-    filename: function (req, file, cb) {
+    filename: function (req, files, cb) {
       // cb(null, file.filename + path.extname(file.originalname)); //Appending extension
-      const extension = file.mimetype.split('/')[1];
-      const name = file.originalname.split('.')[0];
+      const extension = files.mimetype.split('/')[1];
+      const name = files.originalname.split('.')[0];
       try {
         let count = 0;
-        if (!fs.existsSync("public/uploads/images" + file.originalname)) {
-          cb(null, file.originalname);
+        if (!fs.existsSync("public/uploads/images" + files.originalname)) {
+          cb(null, files.originalname);
         } else {
           let count = 0;
           while (fs.existsSync(`public/uploads/images ${name}_${count}.${extension}`)) {
@@ -81,17 +81,19 @@ const OnDBReady = (err) => {
     console.log("Server online");
   });
 
-  app.post("/api/upload", upload.single("image"), async (req, res, next) => {
-    console.log(req.file.filename);
-    const imgName = `http://localhost:3000/uploads/images/${req.file.filename}`;
-    console.log(req); 
-    
+
+  var filesUpload = upload.fields([{ name: 'model', maxCount: 1 }, { name: 'image', maxCount: 8 }])
+
+  app.post("/api/upload", filesUpload, async (req, res, next) => {
+    console.log(req.files);
+    const imgName = `http://localhost:3000/uploads/images/${req.files.image[0].filename}`;
+    const modelName = `http://localhost:3000/uploads/images/${req.files.model[0].filename}`;
 
     const model3d = await new ModelModel({
       title: req.body.title,
       // author_id: new mongoose.Types.ObjectId(),
       img: imgName,
-      model: req.body.model,
+      model: modelName,
       likes: 0,
       downloads: 0,
       // categorie_id: ObjectId(''),
