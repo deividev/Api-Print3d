@@ -3,6 +3,11 @@ const Model = require('../models/model');
 const router = Router();
 
 
+router.get('/model/:id', async (req, res) => {
+  const models = await Model.findById(req.params.id);
+  res.json(models);
+})
+
 router.get('/models', async (req, res) => {
   const models = await Model.find();
   res.json(models);
