@@ -76,6 +76,8 @@ const OnDBReady = (err) => {
 
   app.use("/api", require("./routes/models.router.js"));
 
+  app.use("/api", require("./routes/license.router.js"));
+
   app.get("/", (req, res) => {
     res.render("");
     console.log("Server online");
@@ -96,7 +98,7 @@ const OnDBReady = (err) => {
       model: modelName,
       likes: 0,
       downloads: 0,
-      // categorie_id: ObjectId(''),
+      categories: req.body.categories,
       description: req.body.description,
       settings: req.body.settings,
       custom: req.body.custom,
@@ -108,13 +110,6 @@ const OnDBReady = (err) => {
   });
 
   app.use(express.static(path.join(__dirname, 'public')));
-
-  // app.post('/api/upload/models', upload.single('model'), (req, res) => {
-  //   console.log(req.file);
-  //   (req.file);
-  //   res.send('file');
-  //   console.log('uploaded model');
-  // });
 
   //Start the serve
   app.listen(app.get("port"), () => {

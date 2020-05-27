@@ -14,12 +14,12 @@ const License = new mongoose.Schema({
   },
   img: {
     type: String,
-    required: true,
+    required: false,
     trim: true
   },
   url: {
     type: String,
-    required: true,
+    required: false,
     trim: true
   }},{
     timestamps: {

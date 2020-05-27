@@ -30,8 +30,9 @@ const Model = new mongoose.Schema({
     required: false,
     trim: true
   },
-  categorie_id: {
-    type: { type : mongoose.Schema.Types.ObjectId, ref: 'Categories' },
+  categories: {
+    type: String,
+    trim: true
   },
   description: {
     type: String,
