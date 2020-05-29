@@ -49,8 +49,9 @@ const Model = new mongoose.Schema({
     required: false,
     trim: true
   },
-  license_id: {
-    type: { type : mongoose.Schema.Types.ObjectId, ref: 'License' },
+  license: {
+    type: String,
+    trim: true
   },
   tags: {
     type: String,

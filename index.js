@@ -102,7 +102,7 @@ const OnDBReady = (err) => {
       description: req.body.description,
       settings: req.body.settings,
       custom: req.body.custom,
-      // license_id: ObjectId(''),
+      license: req.body.license,
       tags: req.body.tags,
     }).save();
 
