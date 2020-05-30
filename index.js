@@ -93,7 +93,7 @@ const OnDBReady = (err) => {
 
     const model3d = await new ModelModel({
       title: req.body.title,
-      // author_id: new mongoose.Types.ObjectId(),
+      userId: req.body.userId,
       img: imgName,
       model: modelName,
       likes: 0,

@@ -9,8 +9,8 @@ const User = require('../models/users.model');
 const jwt = require('jsonwebtoken');
 
 
-router.get('/user', async(req, res) => {
-  const user  = await User.find();
+router.get('/user/:id', async(req, res) => {
+  const user  = await User.findById(req.params.id);
   return res.json(user);
 })
  
@@ -24,7 +24,7 @@ router.post('/signup', async(req, res) => {
 })
 
 
-router.post('/signin', async(req, res) => {
+router.post('/signin',  async(req, res) => {
   const {email, password} = req.body;
   const user = await User.findOne({email});
   if (!user) return res.status(401).send('The email doesn´t exists');
@@ -32,10 +32,8 @@ router.post('/signin', async(req, res) => {
 
   const token = jwt.sign({_id: user._id}, 'secretKey');
 
-  return res.status(200).json({token}), 
+  return res.status(200).json({token, user}), 
   console.log(req.userId);
-  // return res.send(req.userId);
-
 })
 
 router.delete('/user/:id', async(req, res) => {

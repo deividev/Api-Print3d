@@ -7,8 +7,10 @@ const Model = new mongoose.Schema({
     required: false,
     trim: true
   },
-  author_id: {
-    type: { type : mongoose.Schema.Types.ObjectId, ref: 'User' },
+  userId: {
+    type: String,
+    require: true,
+    trim: true
   },
   img: {
     type: String,
