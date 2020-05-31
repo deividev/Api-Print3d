@@ -84,9 +84,9 @@ const OnDBReady = (err) => {
   });
 
 
-  var filesUpload = upload.fields([{ name: 'model', maxCount: 1 }, { name: 'image', maxCount: 8 }])
+  var filesUpload = upload.fields([{ name: 'model', maxCount: 8 }, { name: 'image', maxCount: 8 }])
 
-  app.post("/api/upload", filesUpload, async (req, res, next) => {
+  app.post("/api/upload", filesUpload, async (req, res) => {
     console.log(req.files);
     const imgName = `http://localhost:3000/uploads/images/${req.files.image[0].filename}`;
     const modelName = `http://localhost:3000/uploads/images/${req.files.model[0].filename}`;
@@ -109,9 +109,17 @@ const OnDBReady = (err) => {
 
     return res.json({model3d});
   });
-
+  
   app.use(express.static(path.join(__dirname, 'public')));
 
+  app.get('/api/download/:id', async(req, res, next) => {
+    const model = await ModelModel.findById(req.params.id);
+    const file = `${__dirname}/public/uploads/images/dart-model.glb`;
+    res.download(file); // Set disposition and send it.
+    console.log(file);
+    
+  });
+  
   //Start the serve
   app.listen(app.get("port"), () => {
     console.log(`Server on port ${app.get("port")}`);
