@@ -12,6 +12,11 @@ const Model = new mongoose.Schema({
     require: true,
     trim: true
   },
+  userName: {
+    type: String,
+    require: true,
+    trim: true
+  },
   img: {
     type: String,
     required: false,

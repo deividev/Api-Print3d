@@ -47,10 +47,12 @@ const User = new mongoose.Schema({
     required: false,
     trim: true
   },
-  comment_id: {
-    type: { type : mongoose.Schema.Types.ObjectId, ref: 'Comment' },
-    required: false,
-  }},{
+  // comment_id: {
+  //   type: Array,
+  //   required: false,
+  // }
+},
+  {
     timestamps: true
 });
 module.exports = mongoose.model('User', User);

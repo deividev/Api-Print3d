@@ -13,10 +13,21 @@ router.get('/user/:id', async(req, res) => {
   const user  = await User.findById(req.params.id);
   return res.json(user);
 })
- 
+
 router.post('/signup', async(req, res) => {
-  const values = req.body;
-  const newUser = new User(values);
+  const newUser = new User({
+    name: req.body.name,
+    username: req.body.username,
+    email: req.body.email,
+    password: req.body.password,
+    passwordConfirm: req.body.passwordConfirm,
+    img: "",
+    location: "",
+    instagram: "",
+    personalSite: "",
+    bio: ""
+  });
+  
   await newUser.save();
   const token = jwt.sign({_id: newUser._id}, 'secretKey');
   res.status(200).json({token});
@@ -46,7 +57,6 @@ router.delete('/user/:id', async(req, res) => {
 router.put('/user/update/:id', async(req, res) => {
   await User.findByIdAndUpdate(req.params.id);
   console.log('User update');
-
 });
 
 

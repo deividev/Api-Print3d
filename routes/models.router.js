@@ -26,10 +26,29 @@ router.delete('/models/:id', async (req, res) => {
   await Model.findByIdAndDelete(req.params.id);
   console.log('Model delete');
 })
-router.put('/models/update/:id', async (req, res) => {
-  await Model.findByIdAndUpdate(req.params.id);
-  console.log('Model update');
+
+router.put('/models/:id', async (req, res) => {
+  console.log('hola');
+  
+  const updateModel3d = await Model.findByIdAndUpdate(req.params.id, {
+    title: req.body[0].title,
+    userId: req.body[0].userId,
+    userName: req.body[0].userName,
+    img: req.body[0].img,
+    model: req.body[0].model,
+    likes: req.body[0].likes,
+    downloads: req.body[0].downloads,
+    categories: req.body[0].categories,
+    description: req.body[0].description,
+    settings: req.body[0].settings,
+    custom: req.body[0].custom,
+    license: req.body[0].license,
+    tags: req.body[0].tags,
+  });
+
+  return res.json({updateModel3d});
 });
+
 
 module.exports = router;
 

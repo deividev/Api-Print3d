@@ -94,6 +94,7 @@ const OnDBReady = (err) => {
     const model3d = await new ModelModel({
       title: req.body.title,
       userId: req.body.userId,
+      userName: req.body.userName,
       img: imgName,
       model: modelName,
       likes: 0,
@@ -123,6 +124,7 @@ mongoose.connect(
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
+    useFindAndModify: false
   },
   OnDBReady
 );
