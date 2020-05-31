@@ -114,11 +114,12 @@ const OnDBReady = (err) => {
 
   app.get('/api/download/:id', async(req, res, next) => {
     const model = await ModelModel.findById(req.params.id);
-    const file = `${__dirname}/public/uploads/images/dart-model.glb`;
+    const file = `${__dirname}${model.model}`;
     res.download(file); // Set disposition and send it.
     console.log(file);
     
   });
+  
   
   //Start the serve
   app.listen(app.get("port"), () => {
