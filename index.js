@@ -105,6 +105,7 @@ const OnDBReady = (err) => {
       custom: req.body.custom,
       license: req.body.license,
       tags: req.body.tags,
+      comments: req.body.comments,
     }).save();
 
     return res.json({model3d});
