@@ -78,6 +78,8 @@ const OnDBReady = (err) => {
 
   app.use("/api", require("./routes/license.router.js"));
 
+  app.use("/api", require("./routes/comment.router.js"));
+
   app.get("/", (req, res) => {
     res.render("");
     console.log("Server online");

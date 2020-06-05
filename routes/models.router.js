@@ -44,6 +44,7 @@ router.put('/models/:id', async (req, res) => {
     custom: req.body[0].custom,
     license: req.body[0].license,
     tags: req.body[0].tags,
+    comments: req.body[0].comments
   });
 
   return res.json({updateModel3d});
