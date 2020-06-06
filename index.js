@@ -115,6 +115,7 @@ const OnDBReady = (err) => {
   });
   
   app.use(express.static(path.join(__dirname, 'public')));
+  app.use(favicon(__dirname + '/public/images/Baby-groot.jpg'));
 
   app.get('/api/download/:id', async(req, res, next) => {
     const model = await ModelModel.findById(req.params.id);
@@ -126,7 +127,7 @@ const OnDBReady = (err) => {
   
   
   //Start the serve
-  app.listen(app.get("port || 3000"), () => {
+  app.listen(app.get("port"), () => {
     console.log(`Server on port ${app.get("port")}`);
   });
 };
