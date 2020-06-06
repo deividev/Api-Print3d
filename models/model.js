@@ -65,10 +65,11 @@ const Model = new mongoose.Schema({
     required: false,
     trim: true
   },
-  comments: {
-    type: [{ body: String, date: Date }],
-    required: false
-  }},{
+  // comments: {
+  //   type: [{ body: String, date: Date }],
+  //   required: false
+  // }
+},{
     timestamps: {
       createdAt: "created_at",
       updatedAt: "updated_at"
