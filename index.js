@@ -12,7 +12,6 @@ const favicon = require('express-favicon');
 
 const app = express();
 
-// require("./database.js");
 //Inizialition
 
 const mongoUri = "mongodb+srv://david:17rGxHNfLqtjGRN3@print3ddb-n71er.mongodb.net/factory3ddb?retryWrites=true&w=majority"
@@ -34,7 +33,7 @@ const OnDBReady = (err) => {
   // app.use(bodyParser.urlencoded({ extended: true }))
 
   //Settings
-  app.set("port", 3000);
+  app.set("port", process.env.PORT || 3000);
   app.set("views", path.join(__dirname, "views"));
   app.set("view engine", "ejs");
 
@@ -128,10 +127,10 @@ const OnDBReady = (err) => {
   
   
   //Start the serve
-  app.listen(app.get("port"), () => {
-    console.log(`Server on port ${app.get("port")}`);
-  });
-};
+    app.listen(app.get("port"), () => {
+      console.log(`Server on port ${app.get("port")}`);
+    });
+  };
 
 mongoose.connect(
   mongoUri,
