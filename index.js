@@ -91,8 +91,8 @@ const OnDBReady = (err) => {
 
   app.post("/api/upload", filesUpload, async (req, res) => {
     console.log(req.files);
-    const imgName = `http://localhost:3000/uploads/images/${req.files.image[0].filename}`;
-    const modelName = `http://localhost:3000/uploads/images/${req.files.model[0].filename}`;
+    const imgName = `${express.static(path.join(__dirname, 'public/uploads/images/'))}${req.files.image[0].filename}`;
+    const modelName = `${express.static(path.join(__dirname, 'public/uploads/images/'))}${req.files.model[0].filename}`;
 
     const model3d = await new ModelModel({
       title: req.body.title,
@@ -129,6 +129,8 @@ const OnDBReady = (err) => {
   //Start the serve
     app.listen(app.get("port"), () => {
       console.log(`Server on port ${app.get("port")}`);
+      console.log(process.env.NODE_ENV);
+      
     });
   };
 
