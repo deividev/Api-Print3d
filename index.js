@@ -34,8 +34,6 @@ const OnDBReady = (err) => {
 
   //Settings
   app.set("port", 3000);
-  app.set("views", path.join(__dirname, "views"));
-  app.set("view engine", "ejs");
 
   //Middelwares
   // var upload = multer({ dest: 'uploads/' })
