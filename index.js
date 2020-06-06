@@ -8,6 +8,7 @@ const multer = require("multer");
 const path = require("path");
 const ModelModel = require("./models/model");
 const fs = require("fs");
+const favicon = require('express-favicon');
 
 const app = express();
 
@@ -16,8 +17,8 @@ const app = express();
 
 const mongoUri = "mongodb+srv://david:17rGxHNfLqtjGRN3@print3ddb-n71er.mongodb.net/factory3ddb?retryWrites=true&w=majority"
 // const mongoUri = "mongodb://localhost:27017/print3d"
-
 const OnDBReady = (err) => {
+
   if (err) {
     logger.error("Error connecting", err);
     throw new Error("Error connecting", err);
