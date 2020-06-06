@@ -91,8 +91,8 @@ const OnDBReady = (err) => {
 
   app.post("/api/upload", filesUpload, async (req, res) => {
     console.log(req.files);
-    const imgName = `${express.static(path.join(__dirname, 'public/uploads/images/'))}${req.files.image[0].filename}`;
-    const modelName = `${express.static(path.join(__dirname, 'public/uploads/images/'))}${req.files.model[0].filename}`;
+    const imgName = `${express.static(path.join(__dirname, '/public/uploads/images/'))}${req.files.image[0].filename}`;
+    const modelName = `${express.static(path.join(__dirname, '/public/uploads/images/'))}${req.files.model[0].filename}`;
 
     const model3d = await new ModelModel({
       title: req.body.title,
