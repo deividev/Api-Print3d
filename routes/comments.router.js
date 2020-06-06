@@ -22,16 +22,16 @@ router.post('/comments', async(req, res) => {
 })
 
 
-router.delete('/license/:id', async(req, res) => {
+router.delete('/comment/:id', async(req, res) => {
   console.log(req.params.id);
-  await licenseModel.findByIdAndDelete(req.params.id);
-  console.log('License delete');
+  await commentModel.findByIdAndDelete(req.params.id);
+  console.log('comment delete');
 
 });
 
-router.put('/license/update/:id', async(req, res) => {
-  await licenseModel.findByIdAndUpdate(req.params.id);
-  console.log('License update');
+router.put('/comment/update/:id', async(req, res) => {
+  await commentModel.findByIdAndUpdate(req.params.id);
+  console.log('comment update');
 
 });
 

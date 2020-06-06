@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const Comment = require('./comment');
 
 const Model = new mongoose.Schema({
   title: {
@@ -66,9 +66,8 @@ const Model = new mongoose.Schema({
     trim: true
   },
   comments: {
-    type: Array,
-    required: false,
-    trim: true
+    type: [{ body: String, date: Date }],
+    required: false
   }},{
     timestamps: {
       createdAt: "created_at",

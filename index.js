@@ -14,7 +14,8 @@ const app = express();
 // require("./database.js");
 //Inizialition
 
-const mongoUri = "mongodb://localhost:27017/print3d"
+const mongoUri = "mongodb+srv://david:17rGxHNfLqtjGRN3@print3ddb-n71er.mongodb.net/factory3ddb?retryWrites=true&w=majority"
+// const mongoUri = "mongodb://localhost:27017/print3d"
 
 const OnDBReady = (err) => {
   if (err) {
@@ -78,7 +79,7 @@ const OnDBReady = (err) => {
 
   app.use("/api", require("./routes/license.router.js"));
 
-  app.use("/api", require("./routes/comment.router.js"));
+  app.use("/api", require("./routes/comments.router.js"));
 
   app.get("/", (req, res) => {
     res.render("");

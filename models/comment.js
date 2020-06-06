@@ -2,24 +2,23 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const Comment = new mongoose.Schema({
-  user_id: {
+  username: {
     type: { type : mongoose.Schema.Types.ObjectId, ref: 'User' },
-    required: true,
+    required: false,
   },
-  model_id: {
+  modelId: {
     type: { type : mongoose.Schema.Types.ObjectId, ref: 'Model' },
-    required: true,
+    required: false,
   },
   message: {
     type: String,
-    required: true,
+    required: false,
     trim: true
   }},{
     timestamps: {
       createdAt: "created_at",
       updatedAt: "updated_at"
     }
-  
 });
 
 
