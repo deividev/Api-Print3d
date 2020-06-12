@@ -39,9 +39,10 @@ const OnDBReady = (err) => {
 
   //Middelwares
   // var upload = multer({ dest: 'uploads/' })
+
   var storage = multer.diskStorage({
     destination: function (req, files, cb) {
-      cb(null, path.join(__dirname, "/public/uploads/images"));
+      cb(null, "/public/uploads/images");
     },
     filename: function (req, files, cb) {
       // cb(null, file.filename + path.extname(file.originalname)); //Appending extension
@@ -49,20 +50,13 @@ const OnDBReady = (err) => {
       const name = files.originalname.split(".")[0];
       try {
         let count = 0;
-        if (
-          !fs.existsSync(
-            path.join(__dirname, "/public/uploads/images") + files.originalname
-          )
-        ) {
+        if (!fs.existsSync("/public/uploads/images" + files.originalname)) {
           cb(null, files.originalname);
         } else {
           let count = 0;
           while (
             fs.existsSync(
-              `${path.join(
-                __dirname,
-                "/public/uploads/images"
-              )} ${name}_${count}.${extension}`
+              `/public/uploads/images ${name}_${count}.${extension}`
             )
           ) {
             count++;
@@ -80,7 +74,6 @@ const OnDBReady = (err) => {
   });
 
   //** Routes**
-  app.use(express.static("public"));
 
   app.use("/api", require("./routes/categories.router.js"));
 
@@ -104,19 +97,30 @@ const OnDBReady = (err) => {
 
   app.post("/api/upload", filesUpload, async (req, res) => {
     console.log(req.files);
-    const imgName = `${express.static(
-      path.join(__dirname, "/public/uploads/images/")
-    )}vue.png`;
-    const modelName = `${express.static(
-      path.join(__dirname, "/public/uploads/images/")
-    )}vue.png`;
+    if (req && req.files) {
+      const imageName =
+        req.files.image && req.files.image.length
+          ? req.files.image[0].filename
+          : "";
+      const modelName =
+        req.files.model && req.files.model.length
+          ? req.files.image[0].filename
+          : "";
+    }
+
+    const imgUrl = `${path.join(__dirname, "/public/uploads/images/")}${
+      imageName ? imageName : ""
+    }`;
+    const modelUrl = `${path.join(__dirname, "/public/uploads/images/")}${
+      modelName ? modelName : ""
+    }`;
 
     const model3d = await new ModelModel({
       title: req.body.title,
       userId: req.body.userId,
       userName: req.body.userName,
-      img: imgName,
-      model: modelName,
+      img: imgUrl,
+      model: modelUrl,
       likes: 0,
       downloads: 0,
       categories: req.body.categories,
@@ -130,8 +134,10 @@ const OnDBReady = (err) => {
 
     return res.json({ model3d });
   });
-  // app.use(favicon(__dirname + ""));
-  app.use(express.static(__dirname + "/public"));
+
+  app.use(express.static(path.join(__dirname, "public")));
+  //app.use(favicon(__dirname + ""));
+
   app.get("/api/download/:id", async (req, res, next) => {
     const model = await ModelModel.findById(req.params.id);
     const file = `${__dirname}${model.model}`;
@@ -141,7 +147,6 @@ const OnDBReady = (err) => {
 
   //Start the serve
   app.listen(app.get("port"), () => {
-    console.log(path.join(__dirname, "public"));
     console.log(`Server on port ${app.get("port")}`);
     console.log(process.env.NODE_ENV);
   });
