@@ -8,16 +8,16 @@ const multer = require("multer");
 const path = require("path");
 const ModelModel = require("./models/model");
 const fs = require("fs");
-const favicon = require('express-favicon');
+const favicon = require("express-favicon");
 
 const app = express();
 
 //Inizialition
 
-const mongoUri = "mongodb+srv://david:17rGxHNfLqtjGRN3@print3ddb-n71er.mongodb.net/factory3ddb?retryWrites=true&w=majority"
+const mongoUri =
+  "mongodb+srv://david:17rGxHNfLqtjGRN3@print3ddb-n71er.mongodb.net/factory3ddb?retryWrites=true&w=majority";
 // const mongoUri = "mongodb://localhost:27017/print3d"
 const OnDBReady = (err) => {
-
   if (err) {
     logger.error("Error connecting", err);
     throw new Error("Error connecting", err);
@@ -46,15 +46,19 @@ const OnDBReady = (err) => {
     },
     filename: function (req, files, cb) {
       // cb(null, file.filename + path.extname(file.originalname)); //Appending extension
-      const extension = files.mimetype.split('/')[1];
-      const name = files.originalname.split('.')[0];
+      const extension = files.mimetype.split("/")[1];
+      const name = files.originalname.split(".")[0];
       try {
         let count = 0;
         if (!fs.existsSync("/public/uploads/images" + files.originalname)) {
           cb(null, files.originalname);
         } else {
           let count = 0;
-          while (fs.existsSync(`/public/uploads/images ${name}_${count}.${extension}`)) {
+          while (
+            fs.existsSync(
+              `/public/uploads/images ${name}_${count}.${extension}`
+            )
+          ) {
             count++;
           }
           cb(null, `${name}_${count}.${extension}`);
@@ -86,13 +90,19 @@ const OnDBReady = (err) => {
     console.log("Server online");
   });
 
-
-  var filesUpload = upload.fields([{ name: 'model', maxCount: 8 }, { name: 'image', maxCount: 8 }])
+  var filesUpload = upload.fields([
+    { name: "model", maxCount: 8 },
+    { name: "image", maxCount: 8 },
+  ]);
 
   app.post("/api/upload", filesUpload, async (req, res) => {
     console.log(req.files);
-    const imgName = `${express.static(path.join(__dirname, '/public/uploads/images/'))}${req.files.image[0].filename}`;
-    const modelName = `${express.static(path.join(__dirname, '/public/uploads/images/'))}${req.files.model[0].filename}`;
+    const imgName = `${express.static(
+      path.join(__dirname, "/public/uploads/images/")
+    )}${req.files.image[0].filename}`;
+    const modelName = `${express.static(
+      path.join(__dirname, "/public/uploads/images/")
+    )}${req.files.model[0].filename}`;
 
     const model3d = await new ModelModel({
       title: req.body.title,
@@ -111,28 +121,25 @@ const OnDBReady = (err) => {
       comments: req.body.comments,
     }).save();
 
-    return res.json({model3d});
+    return res.json({ model3d });
   });
-  
-  app.use(express.static(path.join(__dirname, 'public')));
-  app.use(favicon(__dirname + '/public/images/Baby-groot.jpg'));
 
-  app.get('/api/download/:id', async(req, res, next) => {
+  app.use(express.static(path.join(__dirname, "public")));
+  // app.use(favicon(__dirname + ""));
+
+  app.get("/api/download/:id", async (req, res, next) => {
     const model = await ModelModel.findById(req.params.id);
     const file = `${__dirname}${model.model}`;
     res.download(file); // Set disposition and send it.
     console.log(file);
-    
   });
-  
-  
+
   //Start the serve
-    app.listen(app.get("port"), () => {
-      console.log(`Server on port ${app.get("port")}`);
-      console.log(process.env.NODE_ENV);
-      
-    });
-  };
+  app.listen(app.get("port"), () => {
+    console.log(`Server on port ${app.get("port")}`);
+    console.log(process.env.NODE_ENV);
+  });
+};
 
 mongoose.connect(
   mongoUri,
@@ -140,7 +147,7 @@ mongoose.connect(
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
-    useFindAndModify: false
+    useFindAndModify: false,
   },
   OnDBReady
 );
