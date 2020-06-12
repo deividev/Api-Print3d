@@ -115,8 +115,8 @@ const OnDBReady = (err) => {
         ? req.files.model[0].filename
         : "";
 
-    const imgUrl = `/public/uploads/images/${imageName}`;
-    const modelUrl = `/public/uploads/images/${modelName}`;
+    const imgUrl = `/uploads/images/${imageName}`;
+    const modelUrl = `/uploads/images/${modelName}`;
 
     const model3d = await new ModelModel({
       title: req.body.title,
