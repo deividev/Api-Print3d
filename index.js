@@ -42,7 +42,7 @@ const OnDBReady = (err) => {
 
   var storage = multer.diskStorage({
     destination: function (req, files, cb) {
-      cb(null, path.join(__dirname, "/public/uploads/images/"));
+      cb(null, "./public/uploads/images/");
     },
     filename: function (req, files, cb) {
       // cb(null, file.filename + path.extname(file.originalname)); //Appending extension
@@ -50,20 +50,13 @@ const OnDBReady = (err) => {
       const name = files.originalname.split(".")[0];
       try {
         let count = 0;
-        if (
-          !fs.existsSync(
-            path.join(__dirname, "/public/uploads/images/") + files.originalname
-          )
-        ) {
+        if (!fs.existsSync("./public/uploads/images/" + files.originalname)) {
           cb(null, files.originalname);
         } else {
           let count = 0;
           while (
             fs.existsSync(
-              `${path.join(
-                __dirname,
-                "/public/uploads/images/"
-              )} ${name}_${count}.${extension}`
+              `./public/uploads/images ${name}_${count}.${extension}`
             )
           ) {
             count++;
