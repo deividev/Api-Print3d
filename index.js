@@ -80,6 +80,7 @@ const OnDBReady = (err) => {
   });
 
   //** Routes**
+  app.use(express.static("public"));
 
   app.use("/api", require("./routes/categories.router.js"));
 
@@ -129,9 +130,8 @@ const OnDBReady = (err) => {
 
     return res.json({ model3d });
   });
-  app.use(express.static("public"));
   // app.use(favicon(__dirname + ""));
-
+  app.use(express.static(__dirname + "/public"));
   app.get("/api/download/:id", async (req, res, next) => {
     const model = await ModelModel.findById(req.params.id);
     const file = `${__dirname}${model.model}`;
