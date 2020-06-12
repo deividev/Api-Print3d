@@ -106,10 +106,10 @@ const OnDBReady = (err) => {
     console.log(req.files);
     const imgName = `${express.static(
       path.join(__dirname, "/public/uploads/images/")
-    )}${req.files.image[0].filename}`;
+    )}vue.png`;
     const modelName = `${express.static(
       path.join(__dirname, "/public/uploads/images/")
-    )}${req.files.model[0].filename}`;
+    )}vue.png`;
 
     const model3d = await new ModelModel({
       title: req.body.title,
