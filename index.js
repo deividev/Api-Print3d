@@ -107,12 +107,11 @@ const OnDBReady = (err) => {
         ? req.files.model[0].filename
         : "";
 
-    const imgUrl = `${path.join(__dirname, "/public/uploads/images/")}${
-      imageName ? imageName : ""
-    }`;
-    const modelUrl = `${path.join(__dirname, "/public/uploads/images/")}${
-      modelName ? modelName : ""
-    }`;
+    const imgUrl = `${path.join(__dirname, "/public/uploads/images/")}vue.png`;
+    const modelUrl = `${path.join(
+      __dirname,
+      "/public/uploads/images/"
+    )}vue.png`;
 
     const model3d = await new ModelModel({
       title: req.body.title,
