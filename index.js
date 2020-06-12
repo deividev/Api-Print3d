@@ -42,7 +42,7 @@ const OnDBReady = (err) => {
 
   var storage = multer.diskStorage({
     destination: function (req, files, cb) {
-      cb(null, "./public/uploads/images/");
+      cb(null, path.join(__dirname, "./public/uploads/images/"));
     },
     filename: function (req, files, cb) {
       // cb(null, file.filename + path.extname(file.originalname)); //Appending extension
@@ -50,13 +50,21 @@ const OnDBReady = (err) => {
       const name = files.originalname.split(".")[0];
       try {
         let count = 0;
-        if (!fs.existsSync("./public/uploads/images/" + files.originalname)) {
+        if (
+          !fs.existsSync(
+            path.join(__dirname, "./public/uploads/images/") +
+              files.originalname
+          )
+        ) {
           cb(null, files.originalname);
         } else {
           let count = 0;
           while (
             fs.existsSync(
-              `./public/uploads/images ${name}_${count}.${extension}`
+              `${path.join(
+                __dirname,
+                "./public/uploads/images/"
+              )} ${name}_${count}.${extension}`
             )
           ) {
             count++;
@@ -98,20 +106,17 @@ const OnDBReady = (err) => {
   app.post("/api/upload", filesUpload, async (req, res) => {
     console.log(req.files);
 
-    // const imageName =
-    //   req.files.image && req.files.image.length
-    //     ? req.files.image[0].filename
-    //     : "";
-    // const modelName =
-    //   req.files.model && req.files.model.length
-    //     ? req.files.model[0].filename
-    //     : "";
+    const imageName =
+      req.files.image && req.files.image.length
+        ? req.files.image[0].filename
+        : "";
+    const modelName =
+      req.files.model && req.files.model.length
+        ? req.files.model[0].filename
+        : "";
 
-    const imgUrl = `${path.join(__dirname, "/public/uploads/images/")}vue.png`;
-    const modelUrl = `${path.join(
-      __dirname,
-      "/public/uploads/images/"
-    )}vue.png`;
+    const imgUrl = `/public/uploads/images/${imageName}`;
+    const modelUrl = `/public/uploads/images/${modelName}`;
 
     const model3d = await new ModelModel({
       title: req.body.title,
