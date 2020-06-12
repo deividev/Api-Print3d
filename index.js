@@ -97,16 +97,15 @@ const OnDBReady = (err) => {
 
   app.post("/api/upload", filesUpload, async (req, res) => {
     console.log(req.files);
-    if (req && req.files) {
-      const imageName =
-        req.files.image && req.files.image.length
-          ? req.files.image[0].filename
-          : "";
-      const modelName =
-        req.files.model && req.files.model.length
-          ? req.files.image[0].filename
-          : "";
-    }
+
+    const imageName =
+      req.files.image && req.files.image.length
+        ? req.files.image[0].filename
+        : "";
+    const modelName =
+      req.files.model && req.files.model.length
+        ? req.files.model[0].filename
+        : "";
 
     const imgUrl = `${path.join(__dirname, "/public/uploads/images/")}${
       imageName ? imageName : ""
